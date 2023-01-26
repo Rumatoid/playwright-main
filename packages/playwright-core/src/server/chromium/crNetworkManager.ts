@@ -113,7 +113,7 @@ export class CRNetworkManager {
     this._protocolRequestInterceptionEnabled = enabled;
     if (enabled) {
       await Promise.all([
-        this._client.send('Network.setCacheDisabled', { cacheDisabled: true }),
+        this._client.send('Network.setCacheDisabled', { cacheDisabled: false }),
         this._client.send('Fetch.enable', {
           handleAuthRequests: true,
           patterns: [{ urlPattern: '*', requestStage: 'Request' }],

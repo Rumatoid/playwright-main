@@ -278,14 +278,12 @@ export class Chromium extends BrowserType {
 
   private _innerDefaultArgs(options: types.LaunchOptions): string[] {
     const { args = [], proxy } = options;
-    const userDataDirArg = args.find(arg => arg.startsWith('--user-data-dir'));
-    if (userDataDirArg)
-      throw new Error('Pass userDataDir parameter to `browserType.launchPersistentContext(userDataDir, ...)` instead of specifying --user-data-dir argument');
-    if (args.find(arg => arg.startsWith('--remote-debugging-pipe')))
-      throw new Error('Playwright manages remote debugging connection itself.');
-    if (args.find(arg => !arg.startsWith('-')))
-      throw new Error('Arguments can not specify page to be opened');
-    const chromeArguments = [...chromiumSwitches];
+
+    if (args.find((arg) => arg.startsWith("--remote-debugging-pipe")))
+      throw new Error("Playwright manages remote debugging connection itself.");
+    if (args.find((arg) => !arg.startsWith("-")))
+      throw new Error("Arguments can not specify page to be opened");
+    const chromeArguments = [];
 
     // See https://github.com/microsoft/playwright/issues/7362
     if (os.platform() === 'darwin')
