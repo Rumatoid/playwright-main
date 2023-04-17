@@ -264,7 +264,7 @@ export class Chromium extends BrowserType {
 
   _defaultArgs(options: types.LaunchOptions, isPersistent: boolean, userDataDir: string): string[] {
     const chromeArguments = this._innerDefaultArgs(options);
-    chromeArguments.push(`--user-data-dir=${userDataDir}`);
+    // chromeArguments.push(`--user-data-dir=${userDataDir}`);
     if (options.useWebSocket)
       chromeArguments.push('--remote-debugging-port=0');
     else
