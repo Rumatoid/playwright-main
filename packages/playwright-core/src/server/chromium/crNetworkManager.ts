@@ -118,7 +118,7 @@ export class CRNetworkManager {
     this._protocolRequestInterceptionEnabled = enabled;
     if (enabled) {
       await Promise.all([
-        this._session.send('Network.setCacheDisabled', { cacheDisabled: true }),
+        this._session.send('Network.setCacheDisabled', { cacheDisabled: false }),
         this._session.send('Fetch.enable', {
           handleAuthRequests: true,
           patterns: [{ urlPattern: '*', requestStage: 'Request' }],
@@ -134,7 +134,7 @@ export class CRNetworkManager {
 
   async clearCache() {
     // Sending 'Network.setCacheDisabled' with 'cacheDisabled = true' will clear the MemoryCache.
-    await this._session.send('Network.setCacheDisabled', { cacheDisabled: true });
+    await this._session.send('Network.setCacheDisabled', { cacheDisabled: false });
     if (!this._protocolRequestInterceptionEnabled)
       await this._session.send('Network.setCacheDisabled', { cacheDisabled: false });
     await this._session.send('Network.clearBrowserCache');

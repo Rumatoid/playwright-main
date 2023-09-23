@@ -276,7 +276,7 @@ export class Chromium extends BrowserType {
 
   _defaultArgs(options: types.LaunchOptions, isPersistent: boolean, userDataDir: string): string[] {
     const chromeArguments = this._innerDefaultArgs(options);
-    chromeArguments.push(`--user-data-dir=${userDataDir}`);
+    // chromeArguments.push(`--user-data-dir=${userDataDir}`);
     if (options.useWebSocket)
       chromeArguments.push('--remote-debugging-port=0');
     else
@@ -290,14 +290,12 @@ export class Chromium extends BrowserType {
 
   private _innerDefaultArgs(options: types.LaunchOptions): string[] {
     const { args = [], proxy } = options;
-    const userDataDirArg = args.find(arg => arg.startsWith('--user-data-dir'));
-    if (userDataDirArg)
-      throw this._createUserDataDirArgMisuseError('--user-data-dir');
+
     if (args.find(arg => arg.startsWith('--remote-debugging-pipe')))
       throw new Error('Playwright manages remote debugging connection itself.');
     if (args.find(arg => !arg.startsWith('-')))
       throw new Error('Arguments can not specify page to be opened');
-    const chromeArguments = [...chromiumSwitches];
+    const chromeArguments = [];
 
     if (os.platform() === 'darwin') {
       // See https://github.com/microsoft/playwright/issues/7362
@@ -314,12 +312,6 @@ export class Chromium extends BrowserType {
         chromeArguments.push('--headless=new');
       else
         chromeArguments.push('--headless');
-
-      chromeArguments.push(
-          '--hide-scrollbars',
-          '--mute-audio',
-          '--blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4',
-      );
     }
     if (options.chromiumSandbox !== true)
       chromeArguments.push('--no-sandbox');
